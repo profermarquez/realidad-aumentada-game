@@ -1,1564 +1,651 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth dark">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Códice Fractal AR — Consigna Oficial del Proyecto</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        cyber: {
-                            dark: '#0a0d14',
-                            card: '#111625',
-                            border: '#1e293b',
-                            cyan: '#06b6d4',
-                            neonCyan: '#22d3ee',
-                            violet: '#8b5cf6',
-                            neonViolet: '#a855f7',
-                            pink: '#ec4899',
-                            emerald: '#10b981'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
-                    }
-                }
+    <title>El Códice Fractal AR - Consigna Oficial del Proyecto</title>
+    <style>
+        :root {
+            --bg-primary: #0a0d14;
+            --bg-secondary: #121824;
+            --bg-card: #1a2234;
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff007f;
+            --accent-green: #00ff66;
+            --accent-gold: #ffcc00;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #2e3d5a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            border-bottom: 2px solid var(--accent-cyan);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            color: #ffffff;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .badge-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge.gold {
+            background: rgba(255, 204, 0, 0.1);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #ffffff;
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        /* Callout Box */
+        .callout {
+            background: rgba(255, 0, 127, 0.08);
+            border-left: 4px solid var(--accent-magenta);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            color: var(--accent-magenta);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Roles Grid */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .role-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-card.explorador {
+            border-top: 4px solid var(--accent-cyan);
+        }
+
+        .role-card.operador {
+            border-top: 4px solid var(--accent-green);
+        }
+
+        .role-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .role-card.explorador .role-title { color: var(--accent-cyan); }
+        .role-card.operador .role-title { color: var(--accent-green); }
+
+        /* Games Grid */
+        .game-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+        }
+
+        @media (max-width: 900px) {
+            .game-block {
+                grid-template-columns: 1fr;
             }
         }
-    </script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #06080e;
-            color: #f1f5f9;
-            font-family: 'Inter', sans-serif;
+
+        .game-info {
+            padding: 25px;
         }
-        .glow-cyan {
-            box-shadow: 0 0 25px -5px rgba(34, 211, 238, 0.3);
+
+        .game-visual {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-left: 1px solid var(--border-color);
+            text-align: center;
         }
-        .glow-violet {
-            box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.3);
+
+        .game-visual canvas {
+            background: #050811;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            max-width: 100%;
         }
-        .glass-panel {
-            background: rgba(17, 22, 37, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glass-card {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(51, 65, 85, 0.5);
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #22d3ee 0%, #a855f7 50%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0a0d14;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #1e293b;
+
+        .game-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 3px 8px;
             border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #06b6d4;
+
+        .tag-static {
+            background: rgba(0, 240, 255, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
         }
-        /* Custom range slider styling */
-        input[type=range] {
-            accent-color: #22d3ee;
+
+        .tag-dynamic {
+            background: rgba(255, 0, 127, 0.2);
+            color: var(--accent-magenta);
+            border: 1px solid var(--accent-magenta);
+        }
+
+        .levels-list {
+            margin-top: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 12px 15px;
+        }
+
+        .level-item {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .level-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .level-name {
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+
+        .theory-box {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px dashed var(--accent-cyan);
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Tech Stack Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--bg-secondary);
+            color: var(--accent-cyan);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
         }
     </style>
 </head>
-<body class="selection:bg-cyber-neonCyan selection:text-slate-950 custom-scrollbar antialiased">
+<body>
 
-    <!-- Top Status Bar -->
-    <div class="bg-slate-950 border-b border-slate-800 text-xs text-slate-400 py-1.5 px-4 sticky top-0 z-50 backdrop-blur bg-slate-950/90">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <span class="flex h-2 w-2 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyber-neonCyan opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-cyber-cyan"></span>
-                </span>
-                <span class="font-mono uppercase tracking-wider text-slate-300 font-semibold">CONSIGNA OFICIAL AR-2026</span>
-                <span class="hidden md:inline text-slate-600">|</span>
-                <span class="hidden md:inline text-slate-400">Secundario & Nivel Superior</span>
-            </div>
-            <div class="flex items-center space-x-4 font-mono text-slate-400">
-                <span><i class="fab fa-python text-amber-400 mr-1"></i> Python 3.x</span>
-                <span><i class="fas fa-camera text-cyber-neonCyan mr-1"></i> OpenCV + ArUco</span>
-                <span><i class="fas fa-network-wired text-cyber-neonViolet mr-1"></i> Sockets</span>
-            </div>
+    <header>
+        <h1 class="header-title">EL CÓDICE FRACTAL AR</h1>
+        <p class="header-subtitle">Consigna de Proyecto: Videojuego Cooperativo Asimétrico de Realidad Aumentada en Python</p>
+        <div class="badge-bar">
+            <span class="badge">Python 3.x</span>
+            <span class="badge">OpenCV + ArUco</span>
+            <span class="badge">Sockets TCP/UDP</span>
+            <span class="badge gold">7 Juegos & 3 Niveles</span>
         </div>
-    </div>
+    </header>
 
-    <!-- Main Navigation Bar -->
-    <nav class="bg-cyber-card/80 backdrop-blur-md border-b border-slate-800/80 sticky top-7 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyber-cyan to-cyber-violet p-0.5 flex items-center justify-center glow-cyan">
-                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                            <i class="fas fa-cubes text-cyber-neonCyan text-lg"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="font-bold text-lg text-white tracking-wide">EL CÓDICE FRACTAL <span class="text-cyber-neonCyan font-mono">AR</span></span>
-                        <span class="block text-xs text-slate-400 font-mono">Sistema de Juegos Asimétricos</span>
-                    </div>
-                </div>
+    <div class="container">
+
+        <!-- 1. FUNDAMENTACIÓN TEÓRICA -->
+        <section>
+            <h2 class="section-title">1. Fundamentación Teórica: Series y Fractales</h2>
+            <div class="card">
+                <p>Una <strong>sucesión numérica</strong> es una lista ordenada de números que sigue una regla específica (ej. 2, 4, 8, 16...). Una <strong>serie numérica</strong> es la suma acumulada de esos números a medida que avanzamos paso a paso.</p>
                 
-                <div class="hidden lg:flex items-center space-x-1 text-sm font-medium">
-                    <a href="#teoria" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><i class="fas fa-book-open mr-1.5 text-cyber-neonCyan"></i>Fundamentación</a>
-                    <a href="#arquitectura" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><i class="fas fa-microchip mr-1.5 text-cyber-neonViolet"></i>Arquitectura</a>
-                    <a href="#roles" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><i class="fas fa-users mr-1.5 text-cyber-pink"></i>Roles Asimétricos</a>
-                    <a href="#juegos" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><i class="fas fa-gamepad mr-1.5 text-emerald-400"></i>Los 7 Juegos</a>
-                    <a href="#tecnico" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><i class="fab fa-python mr-1.5 text-amber-400"></i>Requisitos</a>
-                    <a href="#hojas" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"><i class="fas fa-print mr-1.5 text-cyan-300"></i>Hojas RA</a>
+                <p style="margin-top: 10px;">En este proyecto, un <strong>fractal</strong> es la representación gráfica de una serie matemática proyectada en el espacio por medio de la Realidad Aumentada (RA):</p>
+                
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Paso a paso en RA:</strong> Cada nivel del juego añade un término a la serie, incrementando la densidad visual (más ramas, más triángulos o detalles).</li>
+                    <li><strong>Convergencia (Límite):</strong> Ocurre cuando, aunque la computadora sume infinitos pasos, el objeto virtual se estabiliza dentro de los bordes de la hoja de papel sin crecer infinitamente.</li>
+                    <li><strong>Divergencia (Crecimiento sin control):</strong> Ocurre cuando al agregar términos a la serie, la figura se expande descontroladamente fuera de la pantalla.</li>
+                </ul>
+
+                <div class="callout">
+                    <div class="callout-title">📌 Principio Fundamental de los Desafíos</div>
+                    <p><strong>Juegos 1 al 6 (Geometría Estática):</strong> Los objetivos sobre la hoja impresa están <u>fijos en el espacio</u>. La figura se escala o ajusta mediante los sliders, pero no se mueve sola. La dificultad sube mediante menor margen de error, más objetivos simultáneos, obstáculos fijos y tiempo límite.</p>
+                    <p style="margin-top: 8px;"><strong>Juego 7 (Atractor del Caos - Lorenz):</strong> Es el <u>único juego dinámico en movimiento continuo</u>. La partícula de luz orbita sin parar alrededor del marcador. Los jugadores deben predecir y encauzar un flujo móvil en tiempo real.</p>
                 </div>
-
-                <a href="#juegos" class="bg-gradient-to-r from-cyber-cyan to-cyber-violet hover:from-cyber-neonCyan hover:to-cyber-neonViolet text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition transform hover:scale-105 shadow-lg flex items-center">
-                    <i class="fas fa-play mr-2"></i> Explorar Juegos
-                </a>
             </div>
-        </div>
-    </nav>
+        </section>
 
-    <!-- Sub-navigation for Games Quick Jump -->
-    <div class="bg-slate-950/80 border-b border-slate-800/60 py-2.5 px-4 overflow-x-auto custom-scrollbar">
-        <div class="max-w-7xl mx-auto flex items-center space-x-2 min-w-max text-xs font-mono">
-            <span class="text-slate-500 uppercase font-bold mr-2"><i class="fas fa-bolt text-amber-400 mr-1"></i>Juegos:</span>
-            <a href="#juego-1" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-800 hover:border-cyan-500/50 transition">1. Mandelbrot</a>
-            <a href="#juego-2" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-violet-300 border border-slate-800 hover:border-violet-500/50 transition">2. Julia</a>
-            <a href="#juego-3" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-slate-800 hover:border-emerald-500/50 transition">3. Sierpinski</a>
-            <a href="#juego-4" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-amber-300 border border-slate-800 hover:border-amber-500/50 transition">4. Koch</a>
-            <a href="#juego-5" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-pink-300 border border-slate-800 hover:border-pink-500/50 transition">5. Árbol</a>
-            <a href="#juego-6" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-indigo-300 border border-slate-800 hover:border-indigo-500/50 transition">6. Dragón</a>
-            <a href="#juego-7" class="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-rose-300 border border-slate-800 hover:border-rose-500/50 transition">7. Lorenz</a>
-        </div>
+        <!-- 2. ROLES -->
+        <section>
+            <h2 class="section-title">2. Dinámica Asimétrica de Roles</h2>
+            <div class="card">
+                <p>El juego requiere dos participantes con pantallas independientes que no pueden verse entre sí. <strong>La comunicación verbal es obligatoria.</strong></p>
+                
+                <div class="roles-grid">
+                    <div class="role-card explorador">
+                        <h3 class="role-title">Jugador 1: El Explorador AR</h3>
+                        <p><strong>Vista:</strong> Cámara apuntando a las hojas impresas con marcadores ArUco.</p>
+                        <p style="margin-top: 8px;"><strong>Acciones:</strong> Sostiene y orienta la hoja de papel, observa la figura virtual proyectada en 3D/2D y da indicaciones verbales.</p>
+                        <p style="margin-top: 8px; color: var(--accent-magenta);"><strong>Restricción:</strong> No tiene botones ni controles en su pantalla.</p>
+                    </div>
+
+                    <div class="role-card operador">
+                        <h3 class="role-title">Jugador 2: El Operador</h3>
+                        <p><strong>Vista:</strong> Panel de control táctil y gráfico (CustomTkinter o Pygame-GUI).</p>
+                        <p style="margin-top: 8px;"><strong>Acciones:</strong> Desliza barras (sliders), gira perillas e ingresa comandos simples para modificar el fractal en la hoja.</p>
+                        <p style="margin-top: 8px; color: var(--accent-magenta);"><strong>Restricción:</strong> No ve la transmisión de la cámara ni el papel.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. LOS 7 JUEGOS -->
+        <section>
+            <h2 class="section-title">3. Los 7 Juegos y sus Niveles de Resolución</h2>
+
+            <!-- Juego 1 -->
+            <div class="game-block">
+                <div class="game-info">
+                    <span class="game-tag tag-static">Juego 1 • Geometría Estática</span>
+                    <h3>La Cifradora de Papel (Conjunto de Mandelbrot)</h3>
+                    <p style="margin-top: 8px;"><strong>Aplicación AR:</strong> La cámara detecta la Hoja 1 y proyecta un relieve holográfico con textura fractal sobre el papel impreso.</p>
+                    
+                    <div class="levels-list">
+                        <div class="level-item"><span class="level-name">Nivel 1 (Fácil):</span> Ajustar el slider de cálculo para enfocar un código numérico estático de 3 dígitos sobre el papel.</div>
+                        <div class="level-item"><span class="level-name">Nivel 2 (Medio):</span> Ajustar zoom y desplazarse hacia un detalle estático puntual dentro del mapa del papel.</div>
+                        <div class="level-item"><span class="level-name">Nivel 3 (Difícil):</span> Alinear el relieve con un contorno sombreado impreso físicamente en la hoja en un tiempo límite.</div>
+                    </div>
+
+                    <div class="theory-box">
+                        <strong>Serie Numérica:</strong> Evalúa si la serie de números para cada píxel permanece acotada (convergencia, color oscuro) o crece hacia el infinito (divergencia, color brillante).
+                    </div>
+                </div>
+                <div class="game-visual">
+                    <canvas id="c1" width="220" height="180"></canvas>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">Vista AR: Relieve en Hoja 1</p>
+                </div>
+            </div>
+
+            <!-- Juego 2 -->
+            <div class="game-block">
+                <div class="game-info">
+                    <span class="game-tag tag-static">Juego 2 • Geometría Estática</span>
+                    <h3>La Llave Cambiaformas (Conjunto de Julia)</h3>
+                    <p style="margin-top: 8px;"><strong>Aplicación AR:</strong> Sobre la Hoja 2 flota la silueta de un cristal virtual. El Operador mueve dos sliders ($X$ e $Y$) para deformar la figura estática hasta encajarla en el molde de la cerradura impresa.</p>
+                    
+                    <div class="levels-list">
+                        <div class="level-item"><span class="level-name">Nivel 1 (Fácil):</span> Deformar la estructura estática hasta encajar en una cerradura impresa simple.</div>
+                        <div class="level-item"><span class="level-name">Nivel 2 (Medio):</span> Encajar la figura en una cerradura de alta precisión (margen de error reducido).</div>
+                        <div class="level-item"><span class="level-name">Nivel 3 (Difícil):</span> Moldear la figura esquivando dos bloques de bloqueo impresos alrededor de la cerradura.</div>
+                    </div>
+
+                    <div class="theory-box">
+                        <strong>Serie Numérica:</strong> Demuestra cómo el valor inicial (semilla) altera el resultado de la serie. Un pequeño cambio inicial transforma la geometría fija resultante.
+                    </div>
+                </div>
+                <div class="game-visual">
+                    <canvas id="c2" width="220" height="180"></canvas>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">Vista AR: Cristal en Hoja 2</p>
+                </div>
+            </div>
+
+            <!-- Juego 3 -->
+            <div class="game-block">
+                <div class="game-info">
+                    <span class="game-tag tag-static">Juego 3 • Geometría Estática</span>
+                    <h3>La Pirámide Encajable (Triángulo de Sierpinski)</h3>
+                    <p style="margin-top: 8px;"><strong>Aplicación AR:</strong> La Hoja 3 tiene impreso el contorno de un triángulo. En la pantalla del Explorador brota una pirámide virtual 3D dividida en submódulos triangulares fijos.</p>
+                    
+                    <div class="levels-list">
+                        <div class="level-item"><span class="level-name">Nivel 1 (Fácil):</span> Ajustar la profundidad ($1 \to 5$) para cubrir 3 marcas impresas en la hoja.</div>
+                        <div class="level-item"><span class="level-name">Nivel 2 (Medio):</span> Ajustar el nivel de subdivisión para destapar exactamente 9 puntos de luz fijos en el papel.</div>
+                        <div class="level-item"><span class="level-name">Nivel 3 (Difícil):</span> Sincronizar el nivel de división correcto evitando tocar 3 zonas de peligro fijas.</div>
+                    </div>
+
+                    <div class="theory-box">
+                        <strong>Serie Numérica:</strong> Serie de multiplicación de elementos ($1 \to 3 \to 9 \to 27$) y reducción de área individual de cada pieza.
+                    </div>
+                </div>
+                <div class="game-visual">
+                    <canvas id="c3" width="220" height="180"></canvas>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">Vista AR: Pirámide en Hoja 3</p>
+                </div>
+            </div>
+
+            <!-- Juego 4 -->
+            <div class="game-block">
+                <div class="game-info">
+                    <span class="game-tag tag-static">Juego 4 • Geometría Estática</span>
+                    <h3>El Puente de Papel (Copo de Nieve de Koch)</h3>
+                    <p style="margin-top: 8px;"><strong>Aplicación AR:</strong> La Hoja 4 muestra dos acantilados impresos con un abismo. La cámara proyecta un puente de luz fija cuyas arrugas fractales aumentan según los sliders.</p>
+                    
+                    <div class="levels-list">
+                        <div class="level-item"><span class="level-name">Nivel 1 (Fácil):</span> Unir dos acantilados rectos ajustando el largo del puente.</div>
+                        <div class="level-item"><span class="level-name">Nivel 2 (Medio):</span> Unir dos acantilados desalineados aumentando los picos para esquivar una roca fija impresa.</div>
+                        <div class="level-item"><span class="level-name">Nivel 3 (Difícil):</span> Ajustar el puente con máxima precisión en la tolerancia del largo sin romper la estructura.</div>
+                    </div>
+
+                    <div class="theory-box">
+                        <strong>Serie Numérica:</strong> Muestra la divergencia de perímetro (la longitud de los picos suma valores al infinito) con convergencia de área (superficie limitada).
+                    </div>
+                </div>
+                <div class="game-visual">
+                    <canvas id="c4" width="220" height="180"></canvas>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">Vista AR: Puente en Hoja 4</p>
+                </div>
+            </div>
+
+            <!-- Juego 5 -->
+            <div class="game-block">
+                <div class="game-info">
+                    <span class="game-tag tag-static">Juego 5 • Geometría Estática</span>
+                    <h3>El Árbol de la Tarjeta (Árbol de Pitágoras)</h3>
+                    <p style="margin-top: 8px;"><strong>Aplicación AR:</strong> Un árbol 3D brota de la Hoja 5. Las ramas forman una estructura fija en el espacio que se inclina y abre según las perillas del Operador.</p>
+                    
+                    <div class="levels-list">
+                        <div class="level-item"><span class="level-name">Nivel 1 (Fácil):</span> Ajustar el ángulo de ramas para tocar 2 dianas redondas fijas proyectadas sobre la hoja.</div>
+                        <div class="level-item"><span class="level-name">Nivel 2 (Medio):</span> Tocar 3 dianas fijas colocadas a distintas alturas.</div>
+                        <div class="level-item"><span class="level-name">Nivel 3 (Difícil):</span> Tocar las 3 dianas esquivando 2 muros de bloqueo fijos sobre el papel.</div>
+                    </div>
+
+                    <div class="theory-box">
+                        <strong>Serie Numérica:</strong> Serie geométrica decreciente donde cada rama mide un porcentaje de la anterior ($1 + 0.7 + 0.49\dots$), convergiendo a una altura máxima finita.
+                    </div>
+                </div>
+                <div class="game-visual">
+                    <canvas id="c5" width="220" height="180"></canvas>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">Vista AR: Árbol en Hoja 5</p>
+                </div>
+            </div>
+
+            <!-- Juego 6 -->
+            <div class="game-block">
+                <div class="game-info">
+                    <span class="game-tag tag-static">Juego 6 • Geometría Estática</span>
+                    <h3>El Cableado en Cuadrícula (Curva del Dragón)</h3>
+                    <p style="margin-top: 8px;"><strong>Aplicación AR:</strong> La Hoja 6 presenta una cuadrícula impresa. Un cable de luz fija se despliega en el espacio según la secuencia de giros (Izquierda/Derecha).</p>
+                    
+                    <div class="levels-list">
+                        <div class="level-item"><span class="level-name">Nivel 1 (Fácil):</span> Completar una ruta corta de 4 doblados evitando 1 obstáculo impreso.</div>
+                        <div class="level-item"><span class="level-name">Nivel 2 (Medio):</span> Completar una ruta de 8 doblados esquivando 3 casillas de peligro fijos.</div>
+                        <div class="level-item"><span class="level-name">Nivel 3 (Difícil):</span> Trazar una secuencia de 16 doblados llenando un sector vacío sin cruzar el cable sobre sí mismo.</div>
+                    </div>
+
+                    <div class="theory-box">
+                        <strong>Serie Numérica:</strong> Secuencia de instrucciones ordenada que duplica y revierte el centro en cada paso, cubriendo el plano sin superponerse destructivamente.
+                    </div>
+                </div>
+                <div class="game-visual">
+                    <canvas id="c6" width="220" height="180"></canvas>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">Vista AR: Cableado en Hoja 6</p>
+                </div>
+            </div>
+
+            <!-- Juego 7 -->
+            <div class="game-block" style="border: 2px solid var(--accent-magenta);">
+                <div class="game-info">
+                    <span class="game-tag tag-dynamic">Juego 7 • Único Dinámico Caótico</span>
+                    <h3>El Atractor del Caos (Atractor de Lorenz)</h3>
+                    <p style="margin-top: 8px;"><strong>Aplicación AR:</strong> Es el <u>único juego con movimiento continuo</u>. Una partícula de luz orbita en 3D en tiempo real sobre la Hoja 7 dibujando las alas de una mariposa caótica.</p>
+                    
+                    <div class="levels-list">
+                        <div class="level-item"><span class="level-name">Nivel 1 (Fácil):</span> Ajustar los sliders de velocidad e inclinación para que la trayectoria móvil atraviese 1 aro grande estático en la hoja.</div>
+                        <div class="level-item"><span class="level-name">Nivel 2 (Medio):</span> Enhebrar la trayectoria en movimiento continuo a través de 2 aros fijos simultáneamente.</div>
+                        <div class="level-item"><span class="level-name">Nivel 3 (Difícil):</span> Enhebrar 2 aros estrechos mientras la partícula acelera su flujo caótico.</div>
+                    </div>
+
+                    <div class="theory-box" style="border-color: var(--accent-magenta);">
+                        <strong>Serie Numérica:</strong> Serie temporal caótica dependiente del tiempo. Cada punto deriva del anterior; la figura no se repite pero permanece acotada, mostrando alta sensibilidad inicial (Efecto Mariposa).
+                    </div>
+                </div>
+                <div class="game-visual">
+                    <canvas id="c7" width="220" height="180"></canvas>
+                    <p style="font-size:0.8rem; color:var(--accent-magenta); margin-top:8px;">★ Vista AR: Flujo Dinámico en Hoja 7</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 4. REQUISITOS TÉCNICOS -->
+        <section>
+            <h2 class="section-title">4. Stack Tecnológico en Python</h2>
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Componente</th>
+                            <th>Librería de Python</th>
+                            <th>Función Principal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Visión por Computadora</strong></td>
+                            <td><code>OpenCV (cv2.aruco)</code></td>
+                            <td>Detección de los marcadores en las hojas impresas y estimación de pose 3D.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interfaz del Operador</strong></td>
+                            <td><code>CustomTkinter</code> / <code>Pygame-GUI</code></td>
+                            <td>Diseño del panel táctil con sliders, perillas e indicadores de nivel.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Comunicación Red Local</strong></td>
+                            <td><code>sockets</code> / <code>asyncio</code></td>
+                            <td>Envío instantáneo de variables de control entre la PC del Operador y la del Explorador.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Renderizado Gráfico AR</strong></td>
+                            <td><code>Pygame + PyOpenGL</code> o <code>OpenCV</code></td>
+                            <td>Dibujado de la geometría fractal superpuesta sobre la captura de video.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 5. EVALUACIÓN -->
+        <section>
+            <h2 class="section-title">5. Criterios de Evaluación</h2>
+            <div class="card">
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 10px;"><strong>Integración de Realidad Aumentada (35%):</strong> Detección estable de las 7 hojas impresas y renderizado fluido de los componentes geométricos sobre el papel.</li>
+                    <li style="margin-bottom: 10px;"><strong>Coordinación Asimétrica (30%):</strong> Dependencia absoluta del diálogo entre el Explorador AR y el Operador para resolver cada juego y sus 3 niveles.</li>
+                    <li style="margin-bottom: 10px;"><strong>Demostración de las Series Numéricas (20%):** Representación fiel de la progresión paso a paso de las series y sus propiedades.</li>
+                    <li><strong>Calidad del Código Interno (15%):</strong> Estructura modular en Python, comentarios descriptivos en español y estabilidad en la conexión por sockets.</li>
+                </ul>
+            </div>
+        </section>
+
     </div>
 
-    <!-- Hero Banner Section -->
-    <section class="relative overflow-hidden py-16 lg:py-24 border-b border-slate-800/80 bg-gradient-to-b from-slate-950 via-cyber-dark to-slate-950">
-        <!-- Background Grid Pattern -->
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#22d3ee_1px,transparent_1px)] [background-size:24px_24px]"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div class="lg:col-span-7 space-y-6">
-                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-cyber-cyan/30 text-cyber-neonCyan text-xs font-mono">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Proyecto Integrador Multidisciplinario — Programación & Matemática</span>
-                    </div>
-
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-white">
-                        El Códice Fractal <span class="gradient-text">AR</span>
-                    </h1>
-
-                    <p class="text-slate-300 text-lg leading-relaxed max-w-2xl">
-                        Un sistema interactivo de <strong class="text-cyber-neonCyan">7 juegos de Realidad Aumentada</strong> proyectados sobre hojas de papel impresas. Desarrollado íntegramente en <strong class="text-amber-400">Python</strong>, desafía a dos jugadores en cooperación asimétrica conectada por sockets.
-                    </p>
-
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs pt-2">
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between">
-                            <span class="text-slate-400">Modalidad</span>
-                            <span class="text-white font-bold text-sm mt-1"><i class="fas fa-handshake text-cyber-neonCyan mr-1"></i> Asimétrica 1v1</span>
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between">
-                            <span class="text-slate-400">Tecnología Visión</span>
-                            <span class="text-white font-bold text-sm mt-1"><i class="fas fa-qrcode text-cyber-neonViolet mr-1"></i> OpenCV ArUco</span>
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-between col-span-2 sm:col-span-1">
-                            <span class="text-slate-400">Estructura</span>
-                            <span class="text-white font-bold text-sm mt-1"><i class="fas fa-layer-group text-emerald-400 mr-1"></i> 7 Juegos x 3 Nivel</span>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap gap-4 pt-4">
-                        <a href="#teoria" class="bg-cyber-cyan hover:bg-cyber-neonCyan text-slate-950 font-bold px-6 py-3 rounded-xl transition transform hover:-translate-y-0.5 shadow-lg flex items-center">
-                            <i class="fas fa-book mr-2"></i> Leer Fundamentación
-                        </a>
-                        <a href="#hojas" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 py-3 rounded-xl border border-slate-700 transition flex items-center">
-                            <i class="fas fa-print mr-2 text-cyber-neonViolet"></i> Ver Hojas Impresas
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Hero Graphic Simulation Card -->
-                <div class="lg:col-span-5">
-                    <div class="glass-panel p-5 rounded-3xl glow-cyan relative overflow-hidden">
-                        <div class="flex justify-between items-center mb-3 text-xs font-mono text-slate-400 border-b border-slate-800 pb-2">
-                            <span class="flex items-center text-cyber-neonCyan"><i class="fas fa-camera mr-1.5"></i> VISTA DE CÁMARA EXPLORADOR AR</span>
-                            <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">ONLINE 60 FPS</span>
-                        </div>
-                        <!-- Canvas Hero Interactive Preview -->
-                        <div class="relative bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 aspect-[4/3] flex items-center justify-center group">
-                            <canvas id="hero-canvas" class="w-full h-full block object-cover"></canvas>
-                            <!-- Overlay Camera HUD Elements -->
-                            <div class="absolute inset-0 pointer-events-none p-4 flex flex-col justify-between">
-                                <div class="flex justify-between items-start">
-                                    <div class="bg-slate-950/80 border border-cyber-cyan/40 px-2.5 py-1 rounded text-[10px] font-mono text-cyber-neonCyan">
-                                        ARUCO ID #07 DETECTADO
-                                    </div>
-                                    <div class="text-right text-[10px] font-mono text-slate-400 bg-slate-950/80 px-2 py-1 rounded border border-slate-800">
-                                        SOCKET: 127.0.0.1:8080
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-end">
-                                    <div class="text-[10px] font-mono text-emerald-400 bg-slate-950/80 px-2 py-1 rounded border border-emerald-500/30">
-                                        <i class="fas fa-sync-alt animate-spin mr-1"></i> RENDERIZANDO FRACTAL AR
-                                    </div>
-                                    <div class="text-[10px] font-mono text-slate-400 bg-slate-950/80 px-2 py-1 rounded border border-slate-800">
-                                        HOJA 1/7
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-center text-xs text-slate-400 font-mono mt-3">
-                            <i class="fas fa-info-circle text-cyber-neonCyan mr-1"></i> Simulación en vivo de la figura fractal proyectada sobre el papel impreso.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección 1: Fundamentación Teórica -->
-    <section id="teoria" class="py-16 border-b border-slate-800/80 bg-slate-950/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-cyber-neonCyan font-mono text-xs uppercase tracking-widest font-semibold"><i class="fas fa-square-root-variable mr-1"></i> Fundamento Matemático & RA</span>
-                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">¿Cómo se conectan las Series Numéricas y los Fractales?</h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-cyber-cyan to-cyber-violet mx-auto my-4 rounded-full"></div>
-                <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
-                    Explicación accesible y concreta diseñada para estudiantes. Sin ecuaciones abstractas pesadas, entendiendo la matemática a través del ojo del programador y la Realidad Aumentada.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Card 1 -->
-                <div class="glass-card p-6 rounded-2xl border border-slate-800 hover:border-cyber-cyan/40 transition">
-                    <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-neonCyan text-xl mb-4">
-                        <i class="fas fa-list-ol"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">1. Sucesiones y Series</h3>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        Una <strong>sucesión</strong> es una lista ordenada de números que sigue una regla ($2, 4, 8, 16\dots$). Una <strong>serie</strong> es la suma acumulada de esos números paso a paso. En nuestro juego, cada paso o nivel añade un nuevo término a la figura proyectada sobre la hoja de papel.
-                    </p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="glass-card p-6 rounded-2xl border border-slate-800 hover:border-cyber-violet/40 transition">
-                    <div class="w-12 h-12 rounded-xl bg-cyber-violet/10 border border-cyber-violet/30 flex items-center justify-center text-cyber-neonViolet text-xl mb-4">
-                        <i class="fas fa-infinity"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">2. Convergencia vs Divergencia</h3>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        • <strong>Convergencia (Límite):</strong> Ocurre cuando, aunque sumemos infinitos pasos, la figura no supera un tamaño máximo (como un árbol cuyas ramas secundarias son cada vez más pequeñas).<br>
-                        • <strong>Divergencia:</strong> Ocurre cuando la medida crece sin control hacia el infinito.
-                    </p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="glass-card p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/40 transition">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mb-4">
-                        <i class="fas fa-vr-cardboard"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">3. El Papel como Ancla AR</h3>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        La Realidad Aumentada proyecta el cálculo matemático sobre el mundo físico. La cámara detecta un marcador impreso (ArUco), posiciona el origen de coordenadas ($0,0,0$) en el papel y dibuja el término $n$ de la serie directamente sobre la hoja en 2D o 3D.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección 2: Arquitectura del Sistema -->
-    <section id="arquitectura" class="py-16 border-b border-slate-800/80 bg-cyber-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-cyber-neonViolet font-mono text-xs uppercase tracking-widest font-semibold"><i class="fas fa-network-wired mr-1"></i> Diagrama de Software</span>
-                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Arquitectura Técnica del Sistema en Python</h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-cyber-violet to-cyber-pink mx-auto my-4 rounded-full"></div>
-                <p class="text-slate-300 text-sm sm:text-base">
-                    Estructura modular dividida entre el subsistema de Visión AR (Explorador) y la Consola de Control de Variables (Operador).
-                </p>
-            </div>
-
-            <!-- Architecture Diagram Graphic -->
-            <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 relative">
-                <div class="grid grid-cols-1 lg:grid-cols-11 gap-6 items-center">
-                    
-                    <!-- Box 1: Explorador AR -->
-                    <div class="lg:col-span-4 bg-slate-900/90 border border-cyber-cyan/40 p-5 rounded-2xl space-y-3 relative">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                            <span class="text-cyber-neonCyan font-bold font-mono text-sm"><i class="fas fa-video mr-1.5"></i> MÓDULO 1: EXPLORADOR AR</span>
-                            <span class="text-[10px] bg-cyber-cyan/20 text-cyber-neonCyan px-2 py-0.5 rounded font-mono">OpenCV + ArUco</span>
-                        </div>
-                        <ul class="text-xs text-slate-300 space-y-2 font-mono">
-                            <li class="flex items-start"><i class="fas fa-check-circle text-cyber-neonCyan mr-2 mt-0.5"></i> Captura de Video con OpenCV (`cv2.VideoCapture`).</li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-cyber-neonCyan mr-2 mt-0.5"></i> Detección de marcadores ArUco (`cv2.aruco`).</li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-cyber-neonCyan mr-2 mt-0.5"></i> Estimación de Pose 3D (Matriz de transformación).</li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-cyber-neonCyan mr-2 mt-0.5"></i> Renderizado de la figura fractal sobre la hoja.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Connection Pipeline (Middle Sockets) -->
-                    <div class="lg:col-span-3 flex flex-col items-center justify-center p-4 bg-slate-950/80 rounded-2xl border border-slate-800 text-center space-y-2">
-                        <div class="w-10 h-10 rounded-full bg-cyber-violet/20 border border-cyber-violet flex items-center justify-center text-cyber-neonViolet animate-pulse">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <span class="text-xs font-mono font-bold text-white">RED SOCKETS LOCAL</span>
-                        <span class="text-[10px] font-mono text-slate-400">Servidor / Cliente TCP/UDP<br>JSON Payload (Sliders/Perillas)</span>
-                        <div class="flex space-x-1 text-[10px] font-mono text-cyber-neonCyan">
-                            <span>Ping &lt; 5ms</span>
-                        </div>
-                    </div>
-
-                    <!-- Box 2: Operador -->
-                    <div class="lg:col-span-4 bg-slate-900/90 border border-cyber-violet/40 p-5 rounded-2xl space-y-3 relative">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                            <span class="text-cyber-neonViolet font-bold font-mono text-sm"><i class="fas fa-sliders-h mr-1.5"></i> MÓDULO 2: OPERADOR</span>
-                            <span class="text-[10px] bg-cyber-violet/20 text-cyber-neonViolet px-2 py-0.5 rounded font-mono">Pygame / CustomTkinter</span>
-                        </div>
-                        <ul class="text-xs text-slate-300 space-y-2 font-mono">
-                            <li class="flex items-start"><i class="fas fa-check-circle text-cyber-neonViolet mr-2 mt-0.5"></i> Interfaz Gráfica Táctil 100% Visual.</li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-cyber-neonViolet mr-2 mt-0.5"></i> Deslizadores (Sliders) de parámetros numéricos.</li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-cyber-neonViolet mr-2 mt-0.5"></i> Selector de nivel de dificultad (1, 2, 3).</li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-cyber-neonViolet mr-2 mt-0.5"></i> Envío asíncrono de variables en tiempo real.</li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección 3: Dinámica Asimétrica de Roles -->
-    <section id="roles" class="py-16 border-b border-slate-800/80 bg-slate-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-cyber-pink font-mono text-xs uppercase tracking-widest font-semibold"><i class="fas fa-users-cog mr-1"></i> Metodología Pedagógica</span>
-                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Dinámica de Cooperación Asimétrica</h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-cyber-pink to-cyber-cyan mx-auto my-4 rounded-full"></div>
-                <p class="text-slate-300 text-sm sm:text-base">
-                    Ningún jugador puede resolver el desafío en soledad. La única forma de ganar es a través de la comunicación verbal y la retroalimentación constante.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Rol Explorador -->
-                <div class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-cyber-cyan/40 relative overflow-hidden group hover:border-cyber-cyan transition">
-                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-cyber-cyan/10 rounded-full blur-xl group-hover:bg-cyber-cyan/20 transition"></div>
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-14 h-14 rounded-2xl bg-cyber-cyan/20 border border-cyber-cyan flex items-center justify-center text-cyber-neonCyan text-2xl">
-                            <i class="fas fa-vr-cardboard"></i>
-                        </div>
-                        <div>
-                            <span class="text-xs font-mono text-cyber-neonCyan uppercase font-bold tracking-wider">Rol 1 — En el Campo</span>
-                            <h3 class="text-2xl font-bold text-white">El Explorador AR</h3>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4 text-sm text-slate-300">
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-                            <strong class="text-white block mb-1"><i class="fas fa-eye text-cyber-neonCyan mr-1.5"></i> ¿Qué ve en su pantalla?</strong>
-                            La transmisión en directo de la cámara enfocando las hojas impresas. Ve las figuras proyectadas en Realidad Aumentada flotando sobre el papel, junto con objetivos, dianas y cerraduras virtuales.
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-                            <strong class="text-white block mb-1"><i class="fas fa-hand-holding mr-1.5 text-cyber-neonCyan"></i> ¿Qué acciones realiza?</strong>
-                            Sostiene, inclina o desplaza la hoja de papel. Observa las desviaciones de la figura y guía verbalmente al Operador ("sube un poco la perilla", "aumenta el nivel de división").
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 border-l-4 border-l-rose-500">
-                            <strong class="text-rose-400 block mb-1"><i class="fas fa-ban mr-1.5"></i> Restricción estricta:</strong>
-                            No tiene ningún botón, deslizador ni control en su pantalla. Es 100% dependiente de las acciones del Operador.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rol Operador -->
-                <div class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-cyber-violet/40 relative overflow-hidden group hover:border-cyber-violet transition">
-                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-cyber-violet/10 rounded-full blur-xl group-hover:bg-cyber-violet/20 transition"></div>
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-14 h-14 rounded-2xl bg-cyber-violet/20 border border-cyber-violet flex items-center justify-center text-cyber-neonViolet text-2xl">
-                            <i class="fas fa-sliders-h"></i>
-                        </div>
-                        <div>
-                            <span class="text-xs font-mono text-cyber-neonViolet uppercase font-bold tracking-wider">Rol 2 — En la Consola</span>
-                            <h3 class="text-2xl font-bold text-white">El Operador</h3>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4 text-sm text-slate-300">
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-                            <strong class="text-white block mb-1"><i class="fas fa-desktop text-cyber-neonViolet mr-1.5"></i> ¿Qué ve en su pantalla?</strong>
-                            Un panel táctil/gráfico interactivo con deslizadores numéricos, perillas de ángulo, selectores de modo y botones de dirección.
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-                            <strong class="text-white block mb-1"><i class="fas fa-sliders-h mr-1.5 text-cyber-neonViolet"></i> ¿Qué acciones realiza?</strong>
-                            Mueve los deslizadores para modificar los parámetros de la serie matemática en tiempo real según las instrucciones que recibe por voz del Explorador.
-                        </div>
-                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 border-l-4 border-l-rose-500">
-                            <strong class="text-rose-400 block mb-1"><i class="fas fa-ban mr-1.5"></i> Restricción estricta:</strong>
-                            No ve la cámara ni la imagen sobre el papel. Trabaja "a ciegas" de la representación visual del mundo real.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección 4: Los 7 Juegos Fractales Explícitos -->
-    <section id="juegos" class="py-16 bg-slate-950/80 border-b border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
-            
-            <div class="text-center max-w-3xl mx-auto">
-                <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold"><i class="fas fa-gamepad mr-1"></i> Catálogo de Desafíos</span>
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2">Los 7 Juegos Fractales y sus Lienzos AR</h2>
-                <div class="w-24 h-1.5 bg-gradient-to-r from-cyber-cyan via-cyber-violet to-emerald-400 mx-auto my-4 rounded-full"></div>
-                <p class="text-slate-300 text-sm sm:text-base">
-                    Cada juego cuenta con un simulador interactivo en vivo. Ajusta los parámetros en esta web para experimentar cómo responde la figura proyectada sobre la hoja en tiempo real.
-                </p>
-            </div>
-
-            <!-- ===================== JUEGO 1 ===================== -->
-            <div id="juego-1" class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 scroll-mt-24">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    <!-- Left Column: Specs -->
-                    <div class="lg:col-span-6 space-y-5">
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold border border-cyan-500/30">JUEGO #1</span>
-                            <span class="text-slate-400 font-mono text-xs"><i class="fas fa-file-alt mr-1"></i> Hoja 1 — Marcador ArUco #01</span>
-                        </div>
-                        <h3 class="text-2xl sm:text-3xl font-bold text-white">La Cifradora de Papel <span class="text-cyan-400 text-lg font-mono font-normal block sm:inline">(Conjunto de Mandelbrot)</span></h3>
-                        
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <p><strong class="text-cyan-300"><i class="fas fa-eye mr-1"></i> Aplicación RA y Desafío:</strong> La cámara proyecta sobre la Hoja 1 un mapa de relieve borroso en 3D. El Explorador ve cómo el terreno virtual gana nitidez hasta revelar una clave secreta alfanumérica.</p>
-                            <p><strong class="text-cyan-300"><i class="fas fa-comments mr-1"></i> Mecánica Cooperativa:</strong> El Explorador observa el relieve sobre el papel e indica si falta nitidez o zoom. El Operador ajusta los sliders de "Zoom" y "Pasos de cálculo".</p>
-                        </div>
-
-                        <!-- 3 Niveles -->
-                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 font-mono text-xs">
-                            <div class="text-slate-400 font-bold uppercase mb-1 text-[11px]"><i class="fas fa-layer-group text-cyan-400 mr-1"></i> Niveles de Resolución:</div>
-                            <div class="flex items-start space-x-2"><span class="bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold">N1</span><span>Sintonizar pasos de cálculo para revelar un código estático de 3 dígitos.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">N2</span><span>El código está oculto en una espiral; requiere hacer Zoom y desplazarse.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded font-bold">N3</span><span>Alinear el relieve virtual con un contorno impreso en el papel antes de agotar el tiempo.</span></div>
-                        </div>
-
-                        <!-- Explicación Serie -->
-                        <div class="p-4 rounded-2xl bg-cyan-950/30 border border-cyan-800/40 text-xs text-cyan-200/90 space-y-1">
-                            <strong class="text-cyan-300 font-mono block"><i class="fas fa-calculator mr-1"></i> Explicación de la Serie Numérica:</strong>
-                            Evalúa paso a paso si la serie de números para cada punto del plano <strong>se queda acotada</strong> (convergencia, se pinta oscuro) o <strong>crece sin control hacia el infinito</strong> (divergencia, se pinta brillante).
-                        </div>
-                    </div>
-
-                    <!-- Right Column: Interactive Canvas Simulator -->
-                    <div class="lg:col-span-6 bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="flex justify-between items-center text-xs font-mono text-slate-400">
-                            <span class="text-cyan-400"><i class="fas fa-play-circle mr-1"></i> SIMULADOR INTERACTIVO RA</span>
-                            <span>Hoja 1 (ArUco ID 1)</span>
-                        </div>
-                        <div class="relative aspect-[4/3] bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
-                            <canvas id="canvas-mandelbrot" width="360" height="270" class="w-full h-full object-cover"></canvas>
-                        </div>
-                        <!-- Controls for Web Visitor -->
-                        <div class="grid grid-cols-2 gap-3 text-xs font-mono">
-                            <div>
-                                <label class="text-slate-400 block mb-1">Iteraciones: <span id="mandel-iter-val" class="text-cyan-400">20</span></label>
-                                <input type="range" id="mandel-iter" min="5" max="80" value="20" class="w-full">
-                            </div>
-                            <div>
-                                <label class="text-slate-400 block mb-1">Zoom: <span id="mandel-zoom-val" class="text-cyan-400">1.0x</span></label>
-                                <input type="range" id="mandel-zoom" min="1" max="10" step="0.5" value="1" class="w-full">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ===================== JUEGO 2 ===================== -->
-            <div id="juego-2" class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 scroll-mt-24">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    <div class="lg:col-span-6 space-y-5">
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 font-mono text-xs font-bold border border-violet-500/30">JUEGO #2</span>
-                            <span class="text-slate-400 font-mono text-xs"><i class="fas fa-file-alt mr-1"></i> Hoja 2 — Marcador ArUco #02</span>
-                        </div>
-                        <h3 class="text-2xl sm:text-3xl font-bold text-white">La Llave Cambiaformas <span class="text-violet-400 text-lg font-mono font-normal block sm:inline">(Conjunto de Julia)</span></h3>
-                        
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <p><strong class="text-violet-300"><i class="fas fa-eye mr-1"></i> Aplicación RA y Desafío:</strong> Flota sobre la Hoja 2 una joya o llave de cristal virtual en 3D. En el papel físico hay dibujada una cerradura. Hay que deformar la llave hasta encajarla.</p>
-                            <p><strong class="text-violet-300"><i class="fas fa-comments mr-1"></i> Mecánica Cooperativa:</strong> El Explorador observa cómo se deforma la llave sobre el papel e instruye al Operador para mover las coordenadas $X$ e $Y$ de la constante del fractal.</p>
-                        </div>
-
-                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 font-mono text-xs">
-                            <div class="text-slate-400 font-bold uppercase mb-1 text-[11px]"><i class="fas fa-layer-group text-violet-400 mr-1"></i> Niveles de Resolución:</div>
-                            <div class="flex items-start space-x-2"><span class="bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold">N1</span><span>Calzar la llave virtual en una cerradura impresa estática.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">N2</span><span>La cerradura impresa exige alternar entre 2 formas de cristal en tiempo límite.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded font-bold">N3</span><span>Ajustar con margen de error de precisión milimétrica mientras se sostiene la hoja inclinada.</span></div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-violet-950/30 border border-violet-800/40 text-xs text-violet-200/90 space-y-1">
-                            <strong class="text-violet-300 font-mono block"><i class="fas fa-calculator mr-1"></i> Explicación de la Serie Numérica:</strong>
-                            Demuestra el impacto del <strong>valor inicial (semilla $C$)</strong>. Un cambio mínimo en el término de origen altera drásticamente toda la secuencia posterior de números, cambiando por completo la forma de la llave.
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="flex justify-between items-center text-xs font-mono text-slate-400">
-                            <span class="text-violet-400"><i class="fas fa-play-circle mr-1"></i> SIMULADOR INTERACTIVO RA</span>
-                            <span>Hoja 2 (ArUco ID 2)</span>
-                        </div>
-                        <div class="relative aspect-[4/3] bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
-                            <canvas id="canvas-julia" width="360" height="270" class="w-full h-full object-cover"></canvas>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 text-xs font-mono">
-                            <div>
-                                <label class="text-slate-400 block mb-1">Constante C (Real): <span id="julia-cr-val" class="text-violet-400">-0.7</span></label>
-                                <input type="range" id="julia-cr" min="-1" max="1" step="0.05" value="-0.7" class="w-full">
-                            </div>
-                            <div>
-                                <label class="text-slate-400 block mb-1">Constante C (Imag): <span id="julia-ci-val" class="text-violet-400">0.27</span></label>
-                                <input type="range" id="julia-ci" min="-1" max="1" step="0.05" value="0.27" class="w-full">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ===================== JUEGO 3 ===================== -->
-            <div id="juego-3" class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 scroll-mt-24">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    <div class="lg:col-span-6 space-y-5">
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold border border-emerald-500/30">JUEGO #3</span>
-                            <span class="text-slate-400 font-mono text-xs"><i class="fas fa-file-alt mr-1"></i> Hoja 3 — Marcador ArUco #03</span>
-                        </div>
-                        <h3 class="text-2xl sm:text-3xl font-bold text-white">La Pirámide Encajable <span class="text-emerald-400 text-lg font-mono font-normal block sm:inline">(Triángulo de Sierpinski)</span></h3>
-                        
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <p><strong class="text-emerald-300"><i class="fas fa-eye mr-1"></i> Aplicación RA y Desafío:</strong> Desde el triángulo impreso en la Hoja 3 brota una pirámide tridimensional virtual segmentada en huecos. La pirámide debe encajar con marcas dibujadas en el papel.</p>
-                            <p><strong class="text-emerald-300"><i class="fas fa-comments mr-1"></i> Mecánica Cooperativa:</strong> El Explorador cuenta cuántos huecos o puntos de luz de la hoja deben ser cubiertos o destapados y le pide al Operador ajustar el nivel de subdivisión.</p>
-                        </div>
-
-                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 font-mono text-xs">
-                            <div class="text-slate-400 font-bold uppercase mb-1 text-[11px]"><i class="fas fa-layer-group text-emerald-400 mr-1"></i> Niveles de Resolución:</div>
-                            <div class="flex items-start space-x-2"><span class="bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold">N1</span><span>Ajustar la división (1 a 5) para cubrir 3 dianas principales dibujadas en la hoja.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">N2</span><span>Sincronizar el nivel para dejar al descubierto 9 micro-puntos de luz en la hoja.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded font-bold">N3</span><span>Responder a un patrón de luces parpadeantes cambiando de nivel en tiempo real.</span></div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-800/40 text-xs text-emerald-200/90 space-y-1">
-                            <strong class="text-emerald-300 font-mono block"><i class="fas fa-calculator mr-1"></i> Explicación de la Serie Numérica:</strong>
-                            Muestra una serie de <strong>multiplicación y reducción</strong>: los triángulos se multiplican en cada paso ($1 \to 3 \to 9 \to 27 \dots$), pero la superficie total de cada uno disminuye, manteniendo el área total estrictamente acotada.
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="flex justify-between items-center text-xs font-mono text-slate-400">
-                            <span class="text-emerald-400"><i class="fas fa-play-circle mr-1"></i> SIMULADOR INTERACTIVO RA</span>
-                            <span>Hoja 3 (ArUco ID 3)</span>
-                        </div>
-                        <div class="relative aspect-[4/3] bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
-                            <canvas id="canvas-sierpinski" width="360" height="270" class="w-full h-full object-cover"></canvas>
-                        </div>
-                        <div class="text-xs font-mono">
-                            <label class="text-slate-400 block mb-1">Nivel de Subdivisión (Iteración): <span id="sierp-depth-val" class="text-emerald-400">3</span></label>
-                            <input type="range" id="sierp-depth" min="1" max="6" value="3" class="w-full">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ===================== JUEGO 4 ===================== -->
-            <div id="juego-4" class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 scroll-mt-24">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    <div class="lg:col-span-6 space-y-5">
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/30">JUEGO #4</span>
-                            <span class="text-slate-400 font-mono text-xs"><i class="fas fa-file-alt mr-1"></i> Hoja 4 — Marcador ArUco #04</span>
-                        </div>
-                        <h3 class="text-2xl sm:text-3xl font-bold text-white">El Puente de Papel <span class="text-amber-400 text-lg font-mono font-normal block sm:inline">(Copo de Nieve de Koch)</span></h3>
-                        
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <p><strong class="text-amber-300"><i class="fas fa-eye mr-1"></i> Aplicación RA y Desafío:</strong> En la Hoja 4 hay dibujados dos acantilados separados por un abismo. La cámara proyecta un puente de luz fractal sobre el espacio vacío.</p>
-                            <p><strong class="text-amber-300"><i class="fas fa-comments mr-1"></i> Mecánica Cooperativa:</strong> El Explorador verifica que el puente toque ambos extremos sin chocar con rocas flotantes. El Operador ajusta el "Largo" y la "Rugosidad / Picos".</p>
-                        </div>
-
-                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 font-mono text-xs">
-                            <div class="text-slate-400 font-bold uppercase mb-1 text-[11px]"><i class="fas fa-layer-group text-amber-400 mr-1"></i> Niveles de Resolución:</div>
-                            <div class="flex items-start space-x-2"><span class="bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold">N1</span><span>Unir dos acantilados alineados con un puente recto de baja rugosidad.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">N2</span><span>Unir acantilados con desnivel aumentando picos para esquivar una roca central.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded font-bold">N3</span><span>Mantener la estructura estable bajo ráfagas de viento virtual que deforman la longitud.</span></div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-amber-950/30 border border-amber-800/40 text-xs text-amber-200/90 space-y-1">
-                            <strong class="text-amber-300 font-mono block"><i class="fas fa-calculator mr-1"></i> Explicación de la Serie Numérica:</strong>
-                            Demuestra una paradoja matemática:<br>
-                            • <strong>Perímetro (Divergente):</strong> Crece sin límite con cada nuevo pico ($P \to \infty$).<br>
-                            • <strong>Área (Convergente):</strong> Los picos suman áreas cada vez más pequeñas, ocupando un espacio finito.
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="flex justify-between items-center text-xs font-mono text-slate-400">
-                            <span class="text-amber-400"><i class="fas fa-play-circle mr-1"></i> SIMULADOR INTERACTIVO RA</span>
-                            <span>Hoja 4 (ArUco ID 4)</span>
-                        </div>
-                        <div class="relative aspect-[4/3] bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
-                            <canvas id="canvas-koch" width="360" height="270" class="w-full h-full object-cover"></canvas>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 text-xs font-mono">
-                            <div>
-                                <label class="text-slate-400 block mb-1">Iteración (Picos): <span id="koch-depth-val" class="text-amber-400">3</span></label>
-                                <input type="range" id="koch-depth" min="0" max="4" value="3" class="w-full">
-                            </div>
-                            <div>
-                                <label class="text-slate-400 block mb-1">Ancho del Abismo: <span id="koch-span-val" class="text-amber-400">240px</span></label>
-                                <input type="range" id="koch-span" min="160" max="300" value="240" class="w-full">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ===================== JUEGO 5 ===================== -->
-            <div id="juego-5" class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 scroll-mt-24">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    <div class="lg:col-span-6 space-y-5">
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 font-mono text-xs font-bold border border-pink-500/30">JUEGO #5</span>
-                            <span class="text-slate-400 font-mono text-xs"><i class="fas fa-file-alt mr-1"></i> Hoja 5 — Marcador ArUco #05</span>
-                        </div>
-                        <h3 class="text-2xl sm:text-3xl font-bold text-white">El Árbol de la Tarjeta <span class="text-pink-400 text-lg font-mono font-normal block sm:inline">(Árbol de Pitágoras)</span></h3>
-                        
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <p><strong class="text-pink-300"><i class="fas fa-eye mr-1"></i> Aplicación RA y Desafío:</strong> Del marcador de la Hoja 5 brota un árbol 3D en Realidad Aumentada. En el aire sobre la hoja hay dibujados 3 aros u objetivos circulares.</p>
-                            <p><strong class="text-pink-300"><i class="fas fa-comments mr-1"></i> Mecánica Cooperativa:</strong> El Explorador guía las perillas del Operador ("Ángulo de ramas" y "Factor de reducción") para que las puntas del árbol toquen los 3 aros simultáneamente.</p>
-                        </div>
-
-                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 font-mono text-xs">
-                            <div class="text-slate-400 font-bold uppercase mb-1 text-[11px]"><i class="fas fa-layer-group text-pink-400 mr-1"></i> Niveles de Resolución:</div>
-                            <div class="flex items-start space-x-2"><span class="bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold">N1</span><span>Abrir ramas hasta tocar 2 dianas redondas flotantes en la hoja.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">N2</span><span>Tocar 3 dianas a diferentes alturas ajustando el ángulo y el factor de escala.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded font-bold">N3</span><span>Esquivar bloques de colisión rojos mientras se alcanza el objetivo superior.</span></div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-pink-950/30 border border-pink-800/40 text-xs text-pink-200/90 space-y-1">
-                            <strong class="text-pink-300 font-mono block"><i class="fas fa-calculator mr-1"></i> Explicación de la Serie Numérica:</strong>
-                            Representa una <strong>serie geométrica decreciente</strong>. Cada nueva rama mide una fracción de la anterior ($1 + 0.7 + 0.49 \dots$). La altura total acumulada no crece infinitamente, sino que converge a un límite finito.
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="flex justify-between items-center text-xs font-mono text-slate-400">
-                            <span class="text-pink-400"><i class="fas fa-play-circle mr-1"></i> SIMULADOR INTERACTIVO RA</span>
-                            <span>Hoja 5 (ArUco ID 5)</span>
-                        </div>
-                        <div class="relative aspect-[4/3] bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
-                            <canvas id="canvas-tree" width="360" height="270" class="w-full h-full object-cover"></canvas>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 text-xs font-mono">
-                            <div>
-                                <label class="text-slate-400 block mb-1">Ángulo Ramas: <span id="tree-angle-val" class="text-pink-400">35°</span></label>
-                                <input type="range" id="tree-angle" min="15" max="65" value="35" class="w-full">
-                            </div>
-                            <div>
-                                <label class="text-slate-400 block mb-1">Escala Reducción: <span id="tree-scale-val" class="text-pink-400">0.72</span></label>
-                                <input type="range" id="tree-scale" min="0.5" max="0.8" step="0.02" value="0.72" class="w-full">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ===================== JUEGO 6 ===================== -->
-            <div id="juego-6" class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 scroll-mt-24">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    <div class="lg:col-span-6 space-y-5">
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 font-mono text-xs font-bold border border-indigo-500/30">JUEGO #6</span>
-                            <span class="text-slate-400 font-mono text-xs"><i class="fas fa-file-alt mr-1"></i> Hoja 6 — Marcador ArUco #06</span>
-                        </div>
-                        <h3 class="text-2xl sm:text-3xl font-bold text-white">El Cableado en Cuadrícula <span class="text-indigo-400 text-lg font-mono font-normal block sm:inline">(Curva del Dragón)</span></h3>
-                        
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <p><strong class="text-indigo-300"><i class="fas fa-eye mr-1"></i> Aplicación RA y Desafío:</strong> La Hoja 6 muestra una cuadrícula con obstáculos impresos. Sobre las casillas se despliega en RA un cable de luz plasma que se dobla en ángulos rectos.</p>
-                            <p><strong class="text-indigo-300"><i class="fas fa-comments mr-1"></i> Mecánica Cooperativa:</strong> El Operador ingresa la secuencia de giros mediante botones. El Explorador ve el despliegue sobre la cuadrícula física y advierte si chocará con obstáculos.</p>
-                        </div>
-
-                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 font-mono text-xs">
-                            <div class="text-slate-400 font-bold uppercase mb-1 text-[11px]"><i class="fas fa-layer-group text-indigo-400 mr-1"></i> Niveles de Resolución:</div>
-                            <div class="flex items-start space-x-2"><span class="bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold">N1</span><span>Trayecto corto de 4 dobleces para llegar desde el inicio al fin.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">N2</span><span>Ruta de 8 dobleces esquivando 3 zonas de peligro en la cuadrícula.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded font-bold">N3</span><span>Secuencia de 12 dobleces para llenar una casilla sin tocar los bordes exteriores.</span></div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-800/40 text-xs text-indigo-200/90 space-y-1">
-                            <strong class="text-indigo-300 font-mono block"><i class="fas fa-calculator mr-1"></i> Explicación de la Serie Numérica:</strong>
-                            Es una <strong>secuencia ordenada de instrucciones</strong>. Cada nivel duplica la lista de giros e invierte el centro. Al sumar los segmentos espacialmente, la curva llena un plano 2D sin superponerse de forma destructiva.
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="flex justify-between items-center text-xs font-mono text-slate-400">
-                            <span class="text-indigo-400"><i class="fas fa-play-circle mr-1"></i> SIMULADOR INTERACTIVO RA</span>
-                            <span>Hoja 6 (ArUco ID 6)</span>
-                        </div>
-                        <div class="relative aspect-[4/3] bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
-                            <canvas id="canvas-dragon" width="360" height="270" class="w-full h-full object-cover"></canvas>
-                        </div>
-                        <div class="text-xs font-mono">
-                            <label class="text-slate-400 block mb-1">Orden de Plegado (Iteraciones): <span id="dragon-depth-val" class="text-indigo-400">8</span></label>
-                            <input type="range" id="dragon-depth" min="1" max="11" value="8" class="w-full">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ===================== JUEGO 7 ===================== -->
-            <div id="juego-7" class="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 scroll-mt-24">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    <div class="lg:col-span-6 space-y-5">
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 font-mono text-xs font-bold border border-rose-500/30">JUEGO #7</span>
-                            <span class="text-slate-400 font-mono text-xs"><i class="fas fa-file-alt mr-1"></i> Hoja 7 — Marcador ArUco #07</span>
-                        </div>
-                        <h3 class="text-2xl sm:text-3xl font-bold text-white">El Atractor del Caos <span class="text-rose-400 text-lg font-mono font-normal block sm:inline">(Atractor de Lorenz)</span></h3>
-                        
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <p><strong class="text-rose-300"><i class="fas fa-eye mr-1"></i> Aplicación RA y Desafío:</strong> En la Hoja 7 hay dos aros virtuales flotando. Una partícula de luz orbita creando alas de mariposa en 3D sobre el papel impreso.</p>
-                            <p><strong class="text-rose-300"><i class="fas fa-comments mr-1"></i> Mecánica Cooperativa:</strong> El Operador ajusta los sliders de "Velocidad", "Ancho de ala" e "Inclinación". El Explorador observa la órbita e indica ajustes para cruzar ambos aros.</p>
-                        </div>
-
-                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 font-mono text-xs">
-                            <div class="text-slate-400 font-bold uppercase mb-1 text-[11px]"><i class="fas fa-layer-group text-rose-400 mr-1"></i> Niveles de Resolución:</div>
-                            <div class="flex items-start space-x-2"><span class="bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-bold">N1</span><span>Configurar la órbita para atravesar 1 aro grande en la hoja.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-bold">N2</span><span>Enhebrar la trayectoria a través de 2 aros fijos simultáneamente.</span></div>
-                            <div class="flex items-start space-x-2"><span class="bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded font-bold">N3</span><span>Enhebrar 2 aros en leve movimiento relativo en el espacio virtual.</span></div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-rose-950/30 border border-rose-800/40 text-xs text-rose-200/90 space-y-1">
-                            <strong class="text-rose-300 font-mono block"><i class="fas fa-calculator mr-1"></i> Explicación de la Serie Numérica:</strong>
-                            Una <strong>serie temporal caótica</strong> donde cada punto depende del anterior. La serie no diverge a infinito ni se detiene; permanece atrapada dentro de un atractor con alta sensibilidad a los datos de inicio.
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                        <div class="flex justify-between items-center text-xs font-mono text-slate-400">
-                            <span class="text-rose-400"><i class="fas fa-play-circle mr-1"></i> SIMULADOR INTERACTIVO RA</span>
-                            <span>Hoja 7 (ArUco ID 7)</span>
-                        </div>
-                        <div class="relative aspect-[4/3] bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
-                            <canvas id="canvas-lorenz" width="360" height="270" class="w-full h-full object-cover"></canvas>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 text-xs font-mono">
-                            <div>
-                                <label class="text-slate-400 block mb-1">Parámetro Rho (&rho;): <span id="lorenz-rho-val" class="text-rose-400">28</span></label>
-                                <input type="range" id="lorenz-rho" min="10" max="40" value="28" class="w-full">
-                            </div>
-                            <div>
-                                <label class="text-slate-400 block mb-1">Velocidad Órbita: <span id="lorenz-speed-val" class="text-rose-400">1.0x</span></label>
-                                <input type="range" id="lorenz-speed" min="0.2" max="2.5" step="0.1" value="1.0" class="w-full">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Sección 5: Requisitos Técnicos en Python -->
-    <section id="tecnico" class="py-16 border-b border-slate-800/80 bg-cyber-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-amber-400 font-mono text-xs uppercase tracking-widest font-semibold"><i class="fab fa-python mr-1"></i> Especificación de Desarrollo</span>
-                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Requisitos Técnicos de Implementación</h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-amber-400 to-cyber-cyan mx-auto my-4 rounded-full"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Req 1 -->
-                <div class="glass-card p-5 rounded-2xl border border-slate-800">
-                    <div class="text-amber-400 text-2xl mb-3"><i class="fab fa-python"></i></div>
-                    <h4 class="font-bold text-white text-base mb-2">1. Lenguaje Base</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Desarrollado 100% en <strong>Python 3.x</strong>. Código modular dividido en paquetes: `vision_ar`, `network_sockets`, `gui_operator` y `fractal_math`.
-                    </p>
-                </div>
-
-                <!-- Req 2 -->
-                <div class="glass-card p-5 rounded-2xl border border-slate-800">
-                    <div class="text-cyber-neonCyan text-2xl mb-3"><i class="fas fa-camera font-mono"></i></div>
-                    <h4 class="font-bold text-white text-base mb-2">2. OpenCV + ArUco</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Uso de `cv2.aruco` con diccionario `DICT_4X4_50`. Estimación de matriz de pose 3D (`rvec`, `tvec`) para proyección estable sobre el papel.
-                    </p>
-                </div>
-
-                <!-- Req 3 -->
-                <div class="glass-card p-5 rounded-2xl border border-slate-800">
-                    <div class="text-cyber-neonViolet text-2xl mb-3"><i class="fas fa-network-wired"></i></div>
-                    <h4 class="font-bold text-white text-base mb-2">3. Sockets / Asyncio</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Conexión cliente-servidor en red local por Sockets TCP/UDP. Transmisión asíncrona de estructuras JSON ligeras para evitar lag visual.
-                    </p>
-                </div>
-
-                <!-- Req 4 -->
-                <div class="glass-card p-5 rounded-2xl border border-slate-800">
-                    <div class="text-emerald-400 text-2xl mb-3"><i class="fas fa-sliders-h"></i></div>
-                    <h4 class="font-bold text-white text-base mb-2">4. Interfaz Gráfica</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Construida con `Pygame`, `Pygame-GUI` o `CustomTkinter`. 100% interactiva mediante deslizadores, botones y perillas (sin ingreso de código).
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección 6: Rúbrica y Criterios de Evaluación -->
-    <section class="py-16 border-b border-slate-800/80 bg-slate-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-cyber-neonCyan font-mono text-xs uppercase tracking-widest font-semibold"><i class="fas fa-clipboard-check mr-1"></i> Rúbrica Académica</span>
-                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Criterios de Evaluación del Proyecto</h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-cyber-cyan to-emerald-400 mx-auto my-4 rounded-full"></div>
-            </div>
-
-            <div class="glass-panel rounded-3xl border border-slate-800 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-300">
-                        <thead class="bg-slate-900/90 text-xs uppercase font-mono text-slate-400 border-b border-slate-800">
-                            <tr>
-                                <th class="p-4">Criterio de Evaluación</th>
-                                <th class="p-4 text-center">Peso</th>
-                                <th class="p-4">Descripción del Desempeño Esperado</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-800/60 font-mono text-xs">
-                            <tr class="hover:bg-slate-900/50">
-                                <td class="p-4 font-bold text-white flex items-center">
-                                    <i class="fas fa-gamepad text-cyber-neonCyan mr-2 text-base"></i>
-                                    Diseño de los 7 Juegos y Niveles
-                                </td>
-                                <td class="p-4 text-center font-bold text-cyber-neonCyan text-sm">35%</td>
-                                <td class="p-4 text-slate-300">Implementación correcta de los 7 juegos con sus correspondientes 3 niveles internos de resolución progresiva. Rendimiento fluido de la imagen sobre el papel.</td>
-                            </tr>
-                            <tr class="hover:bg-slate-900/50">
-                                <td class="p-4 font-bold text-white flex items-center">
-                                    <i class="fas fa-users text-cyber-neonViolet mr-2 text-base"></i>
-                                    Coordinación Asimétrica
-                                </td>
-                                <td class="p-4 text-center font-bold text-cyber-neonViolet text-sm">30%</td>
-                                <td class="p-4 text-slate-300">Dependencia absoluta del intercambio hablado entre el Explorador (vista de hoja en RA) y el Operador (consola de sliders) para resolver los desafíos.</td>
-                            </tr>
-                            <tr class="hover:bg-slate-900/50">
-                                <td class="p-4 font-bold text-white flex items-center">
-                                    <i class="fas fa-square-root-variable text-emerald-400 mr-2 text-base"></i>
-                                    Integración Teórica de Series
-                                </td>
-                                <td class="p-4 text-center font-bold text-emerald-400 text-sm">20%</td>
-                                <td class="p-4 text-slate-300">Representación visual clara y numéricamente fiel de la progresión de los términos de cada serie (convergencia, divergencia, límites e iteraciones).</td>
-                            </tr>
-                            <tr class="hover:bg-slate-900/50">
-                                <td class="p-4 font-bold text-white flex items-center">
-                                    <i class="fab fa-python text-amber-400 mr-2 text-base"></i>
-                                    Calidad del Código en Python
-                                </td>
-                                <td class="p-4 text-center font-bold text-amber-400 text-sm">15%</td>
-                                <td class="p-4 text-slate-300">Código limpio, modularización en archivos `.py`, comentarios descriptivos en español y gestión estable de la comunicación en red por sockets sin fallos de reconexión.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección 7: Galería de Hojas Impresas (Plantillas RA) -->
-    <section id="hojas" class="py-16 bg-cyber-dark border-b border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div class="text-center max-w-3xl mx-auto">
-                <span class="text-cyan-300 font-mono text-xs uppercase tracking-widest font-semibold"><i class="fas fa-print mr-1"></i> Material de Trabajo</span>
-                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Galería de Hojas Impresas con Marcadores ArUco</h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-cyber-cyan to-cyber-violet mx-auto my-4 rounded-full"></div>
-                <p class="text-slate-300 text-sm sm:text-base">
-                    Previsualización digital de las 7 Hojas de Referencia impresas. Cada una contiene su marcador ArUco correspondiente (IDs 1 a 7) para ser enfocado por la cámara del Explorador.
-                </p>
-            </div>
-
-            <!-- Grid of 7 Printable Sheets -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Sheet 1 -->
-                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center space-y-3 group hover:border-cyan-400 transition">
-                    <div class="aspect-[3/4] bg-white rounded-xl p-3 flex flex-col justify-between text-slate-900 relative shadow-inner">
-                        <div class="flex justify-between items-center text-[10px] font-mono border-b border-slate-300 pb-1">
-                            <span class="font-bold">HOJA #1: MANDELBROT</span>
-                            <span>ARUCO ID 1</span>
-                        </div>
-                        <div class="my-auto flex flex-col items-center justify-center space-y-2">
-                            <!-- Simulated ArUco Matrix 1 -->
-                            <div class="w-20 h-20 bg-black p-1.5 grid grid-cols-4 gap-0.5 border border-slate-400 shadow">
-                                <div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div>
-                                <div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div>
-                                <div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div>
-                                <div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div>
-                            </div>
-                            <span class="text-[9px] font-mono text-slate-500">MARCADOR OFICIAL 4X4</span>
-                        </div>
-                        <div class="border-t border-slate-300 pt-1 text-[9px] font-mono text-slate-600">
-                            CÓDICE FRACTAL AR — SECUNDARIO
-                        </div>
-                    </div>
-                    <div class="text-xs font-mono text-cyan-300 font-bold">1. La Cifradora de Papel</div>
-                </div>
-
-                <!-- Sheet 2 -->
-                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center space-y-3 group hover:border-violet-400 transition">
-                    <div class="aspect-[3/4] bg-white rounded-xl p-3 flex flex-col justify-between text-slate-900 relative shadow-inner">
-                        <div class="flex justify-between items-center text-[10px] font-mono border-b border-slate-300 pb-1">
-                            <span class="font-bold">HOJA #2: JULIA</span>
-                            <span>ARUCO ID 2</span>
-                        </div>
-                        <div class="my-auto flex flex-col items-center justify-center space-y-2">
-                            <div class="w-20 h-20 bg-black p-1.5 grid grid-cols-4 gap-0.5 border border-slate-400 shadow">
-                                <div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div>
-                                <div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div>
-                                <div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div>
-                                <div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div>
-                            </div>
-                            <span class="text-[9px] font-mono text-slate-500">MARCADOR OFICIAL 4X4</span>
-                        </div>
-                        <div class="border-t border-slate-300 pt-1 text-[9px] font-mono text-slate-600">
-                            CÓDICE FRACTAL AR — SECUNDARIO
-                        </div>
-                    </div>
-                    <div class="text-xs font-mono text-violet-300 font-bold">2. La Llave Cambiaformas</div>
-                </div>
-
-                <!-- Sheet 3 -->
-                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center space-y-3 group hover:border-emerald-400 transition">
-                    <div class="aspect-[3/4] bg-white rounded-xl p-3 flex flex-col justify-between text-slate-900 relative shadow-inner">
-                        <div class="flex justify-between items-center text-[10px] font-mono border-b border-slate-300 pb-1">
-                            <span class="font-bold">HOJA #3: SIERPINSKI</span>
-                            <span>ARUCO ID 3</span>
-                        </div>
-                        <div class="my-auto flex flex-col items-center justify-center space-y-2">
-                            <div class="w-20 h-20 bg-black p-1.5 grid grid-cols-4 gap-0.5 border border-slate-400 shadow">
-                                <div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div>
-                                <div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div>
-                                <div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div>
-                                <div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div>
-                            </div>
-                            <span class="text-[9px] font-mono text-slate-500">MARCADOR OFICIAL 4X4</span>
-                        </div>
-                        <div class="border-t border-slate-300 pt-1 text-[9px] font-mono text-slate-600">
-                            CÓDICE FRACTAL AR — SECUNDARIO
-                        </div>
-                    </div>
-                    <div class="text-xs font-mono text-emerald-300 font-bold">3. La Pirámide Encajable</div>
-                </div>
-
-                <!-- Sheet 4 -->
-                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center space-y-3 group hover:border-amber-400 transition">
-                    <div class="aspect-[3/4] bg-white rounded-xl p-3 flex flex-col justify-between text-slate-900 relative shadow-inner">
-                        <div class="flex justify-between items-center text-[10px] font-mono border-b border-slate-300 pb-1">
-                            <span class="font-bold">HOJA #4: KOCH</span>
-                            <span>ARUCO ID 4</span>
-                        </div>
-                        <div class="my-auto flex flex-col items-center justify-center space-y-2">
-                            <div class="w-20 h-20 bg-black p-1.5 grid grid-cols-4 gap-0.5 border border-slate-400 shadow">
-                                <div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div>
-                                <div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div>
-                                <div class="bg-white"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div>
-                                <div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div>
-                            </div>
-                            <span class="text-[9px] font-mono text-slate-500">MARCADOR OFICIAL 4X4</span>
-                        </div>
-                        <div class="border-t border-slate-300 pt-1 text-[9px] font-mono text-slate-600">
-                            CÓDICE FRACTAL AR — SECUNDARIO
-                        </div>
-                    </div>
-                    <div class="text-xs font-mono text-amber-300 font-bold">4. El Puente de Papel</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-slate-950 py-12 border-t border-slate-800/80 text-xs text-slate-400 font-mono">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-            <div class="flex justify-center items-center space-x-2">
-                <div class="w-6 h-6 rounded bg-gradient-to-tr from-cyber-cyan to-cyber-violet flex items-center justify-center text-slate-950 font-bold">
-                    <i class="fas fa-cubes text-xs"></i>
-                </div>
-                <span class="text-white font-bold text-sm tracking-wide">EL CÓDICE FRACTAL AR</span>
-            </div>
-            <p class="max-w-xl mx-auto text-slate-400">
-                Consigna oficial para el desarrollo del proyecto interdisciplinario de Programación en Python y Geometría Fractal en Realidad Aumentada.
-            </p>
-            <div class="pt-4 text-[11px] text-slate-400 border-t border-slate-900">
-                © 2026 Sistema de Juegos Asimétricos. Desarrollado con Python, OpenCV ArUco y Sockets.
-            </div>
-        </div>
+    <footer>
+        <p>El Códice Fractal AR • Consigna Oficial de Cátedra • Lenguaje Python</p>
     </footer>
 
-    <!-- JavaScript Canvas Logic for live Fractals rendering -->
+    <!-- Script para renderizar gráficos demostrativos en los mini-canvases -->
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            
-            // ==================== HERO CANVAS SIMULATION ====================
-            const heroCanvas = document.getElementById('hero-canvas');
-            if (heroCanvas) {
-                const ctx = heroCanvas.getContext('2d');
-                let angle = 0;
-                function renderHero() {
-                    heroCanvas.width = heroCanvas.clientWidth;
-                    heroCanvas.height = heroCanvas.clientHeight;
-                    const w = heroCanvas.width;
-                    const h = heroCanvas.height;
-                    
-                    ctx.fillStyle = '#06080e';
-                    ctx.fillRect(0, 0, w, h);
-                    
-                    // Paper Sheet Outline Simulation
-                    ctx.strokeStyle = '#334155';
-                    ctx.lineWidth = 2;
-                    ctx.strokeRect(w * 0.1, h * 0.1, w * 0.8, h * 0.8);
-                    
-                    // Paper texture fill
-                    ctx.fillStyle = '#0f172a';
-                    ctx.fillRect(w * 0.1, h * 0.1, w * 0.8, h * 0.8);
+        function drawVisuals() {
+            // C1: Mandelbrot
+            const c1 = document.getElementById('c1').getContext('2d');
+            c1.fillStyle = '#050811'; c1.fillRect(0,0,220,180);
+            c1.strokeStyle = '#00f0ff'; c1.lineWidth = 1.5;
+            c1.beginPath(); c1.arc(110, 90, 45, 0, Math.PI*2); c1.stroke();
+            c1.fillStyle = '#00f0ff'; c1.fillText("ARUCO #1 - ZOOM 3.5x", 45, 160);
 
-                    // Draw animated Lorenz curve inside AR Frame
-                    ctx.save();
-                    ctx.translate(w / 2, h / 2);
-                    ctx.strokeStyle = '#22d3ee';
-                    ctx.lineWidth = 1.5;
-                    ctx.shadowColor = '#22d3ee';
-                    ctx.shadowBlur = 10;
-                    
-                    ctx.beginPath();
-                    let x = 0.1, y = 0, z = 0;
-                    const dt = 0.01;
-                    angle += 0.005;
-                    
-                    for (let i = 0; i < 600; i++) {
-                        const dx = 10 * (y - x) * dt;
-                        const dy = (x * (28 - z) - y) * dt;
-                        const dz = (x * y - (8/3) * z) * dt;
-                        x += dx; y += dy; z += dz;
-                        
-                        // Rotate 3D projection
-                        const px = x * Math.cos(angle) - z * Math.sin(angle);
-                        const py = y;
-                        
-                        const screenX = px * 5;
-                        const screenY = py * 5 - (z * 2 - 40);
-                        
-                        if (i === 0) ctx.moveTo(screenX, screenY);
-                        else ctx.lineTo(screenX, screenY);
-                    }
-                    ctx.stroke();
-                    ctx.restore();
+            // C2: Julia
+            const c2 = document.getElementById('c2').getContext('2d');
+            c2.fillStyle = '#050811'; c2.fillRect(0,0,220,180);
+            c2.strokeStyle = '#00ff66';
+            c2.strokeRect(70, 40, 80, 100);
+            c2.beginPath(); c2.arc(110, 90, 25, 0, Math.PI*2); c2.stroke();
+            c2.fillStyle = '#00ff66'; c2.fillText("MOLDE IMPRESO", 65, 160);
 
-                    // Draw Marker ArUco graphic top-left of paper
-                    ctx.fillStyle = '#000000';
-                    ctx.fillRect(w * 0.12, h * 0.12, 30, 30);
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(w * 0.12 + 5, h * 0.12 + 5, 10, 10);
-                    ctx.fillRect(w * 0.12 + 15, h * 0.12 + 15, 10, 10);
+            // C3: Sierpinski
+            const c3 = document.getElementById('c3').getContext('2d');
+            c3.fillStyle = '#050811'; c3.fillRect(0,0,220,180);
+            c3.strokeStyle = '#ffcc00';
+            c3.beginPath(); c3.moveTo(110,30); c3.lineTo(40,140); c3.lineTo(180,140); c3.closePath(); c3.stroke();
+            c3.beginPath(); c3.moveTo(110,140); c3.lineTo(75,85); c3.lineTo(145,85); c3.closePath(); c3.stroke();
 
-                    requestAnimationFrame(renderHero);
+            // C4: Koch
+            const c4 = document.getElementById('c4').getContext('2d');
+            c4.fillStyle = '#050811'; c4.fillRect(0,0,220,180);
+            c4.strokeStyle = '#00f0ff';
+            c4.beginPath(); c4.moveTo(20,100); c4.lineTo(70,100); c4.lineTo(95,60); c4.lineTo(120,100); c4.lineTo(170,100); c4.stroke();
+
+            // C5: Árbol
+            const c5 = document.getElementById('c5').getContext('2d');
+            c5.fillStyle = '#050811'; c5.fillRect(0,0,220,180);
+            c5.strokeStyle = '#00ff66';
+            c5.beginPath(); c5.moveTo(110,150); c5.lineTo(110,100);
+            c5.lineTo(80,60); c5.moveTo(110,100); c5.lineTo(140,60); c5.stroke();
+
+            // C6: Dragón
+            const c6 = document.getElementById('c6').getContext('2d');
+            c6.fillStyle = '#050811'; c6.fillRect(0,0,220,180);
+            c6.strokeStyle = '#ffcc00';
+            c6.beginPath(); c6.moveTo(50,130); c6.lineTo(50,80); c6.lineTo(100,80); c6.lineTo(100,50); c6.lineTo(150,50); c6.stroke();
+
+            // C7: Lorenz (Dynamic)
+            const c7 = document.getElementById('c7').getContext('2d');
+            let angle = 0;
+            function animateLorenz() {
+                c7.fillStyle = '#050811'; c7.fillRect(0,0,220,180);
+                c7.strokeStyle = '#ff007f'; c7.lineWidth = 2;
+                c7.beginPath();
+                for(let t=0; t<Math.PI*4; t+=0.1) {
+                    let x = 110 + Math.sin(t + angle) * (30 + Math.sin(t)*15);
+                    let y = 90 + Math.cos(t*0.5) * 40;
+                    if(t===0) c7.moveTo(x,y); else c7.lineTo(x,y);
                 }
-                renderHero();
+                c7.stroke();
+                
+                // Dibuja la partícula en movimiento
+                let px = 110 + Math.sin(angle*2) * 40;
+                let py = 90 + Math.cos(angle) * 30;
+                c7.fillStyle = '#ffffff';
+                c7.beginPath(); c7.arc(px, py, 5, 0, Math.PI*2); c7.fill();
+
+                angle += 0.03;
+                requestAnimationFrame(animateLorenz);
             }
+            animateLorenz();
+        }
 
-            // ==================== JUEGO 1: MANDELBROT ====================
-            const mandelCanvas = document.getElementById('canvas-mandelbrot');
-            const mandelIter = document.getElementById('mandel-iter');
-            const mandelZoom = document.getElementById('mandel-zoom');
-            const mandelIterVal = document.getElementById('mandel-iter-val');
-            const mandelZoomVal = document.getElementById('mandel-zoom-val');
-
-            function drawMandelbrot() {
-                if (!mandelCanvas) return;
-                const ctx = mandelCanvas.getContext('2d');
-                const w = mandelCanvas.width;
-                const h = mandelCanvas.height;
-                const maxIter = parseInt(mandelIter.value);
-                const zoom = parseFloat(mandelZoom.value);
-
-                mandelIterVal.textContent = maxIter;
-                mandelZoomVal.textContent = zoom.toFixed(1) + 'x';
-
-                const imgData = ctx.createImageData(w, h);
-                const data = imgData.data;
-
-                const cx = -0.7;
-                const cy = 0;
-
-                for (let px = 0; px < w; px += 2) {
-                    for (let py = 0; py < h; py += 2) {
-                        const x0 = (px - w / 2) / (0.35 * w * zoom) + cx;
-                        const y0 = (py - h / 2) / (0.35 * h * zoom) + cy;
-
-                        let x = 0, y = 0;
-                        let iter = 0;
-                        while (x * x + y * y <= 4 && iter < maxIter) {
-                            const xtemp = x * x - y * y + x0;
-                            y = 2 * x * y + y0;
-                            x = xtemp;
-                            iter++;
-                        }
-
-                        let r = 0, g = 0, b = 0;
-                        if (iter < maxIter) {
-                            const c = Math.floor((iter / maxIter) * 255);
-                            r = c;
-                            g = Math.floor(c * 0.8);
-                            b = 255 - c;
-                        } else {
-                            r = 10; g = 15; b = 30;
-                        }
-
-                        // Set 2x2 pixel blocks for speed
-                        for (let dx = 0; dx < 2; dx++) {
-                            for (let dy = 0; dy < 2; dy++) {
-                                const idx = ((py + dy) * w + (px + dx)) * 4;
-                                data[idx] = r;
-                                data[idx + 1] = g;
-                                data[idx + 2] = b;
-                                data[idx + 3] = 255;
-                            }
-                        }
-                    }
-                }
-                ctx.putImageData(imgData, 0, 0);
-
-                // AR Overlay Frame
-                ctx.strokeStyle = '#22d3ee';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(10, 10, w - 20, h - 20);
-                ctx.fillStyle = '#22d3ee';
-                ctx.font = '10px monospace';
-                ctx.fillText('HOJA 1 — ARUCO #01 DETECTADO', 20, 25);
-            }
-
-            mandelIter?.addEventListener('input', drawMandelbrot);
-            mandelZoom?.addEventListener('input', drawMandelbrot);
-            drawMandelbrot();
-
-            // ==================== JUEGO 2: JULIA ====================
-            const juliaCanvas = document.getElementById('canvas-julia');
-            const juliaCr = document.getElementById('julia-cr');
-            const juliaCi = document.getElementById('julia-ci');
-            const juliaCrVal = document.getElementById('julia-cr-val');
-            const juliaCiVal = document.getElementById('julia-ci-val');
-
-            function drawJulia() {
-                if (!juliaCanvas) return;
-                const ctx = juliaCanvas.getContext('2d');
-                const w = juliaCanvas.width;
-                const h = juliaCanvas.height;
-                const cr = parseFloat(juliaCr.value);
-                const ci = parseFloat(juliaCi.value);
-
-                juliaCrVal.textContent = cr.toFixed(2);
-                juliaCiVal.textContent = ci.toFixed(2);
-
-                const imgData = ctx.createImageData(w, h);
-                const data = imgData.data;
-                const maxIter = 30;
-
-                for (let px = 0; px < w; px += 2) {
-                    for (let py = 0; py < h; py += 2) {
-                        let x = (px - w / 2) / (0.35 * w);
-                        let y = (py - h / 2) / (0.35 * h);
-                        let iter = 0;
-
-                        while (x * x + y * y <= 4 && iter < maxIter) {
-                            const xtemp = x * x - y * y + cr;
-                            y = 2 * x * y + ci;
-                            x = xtemp;
-                            iter++;
-                        }
-
-                        let r = 0, g = 0, b = 0;
-                        if (iter < maxIter) {
-                            r = Math.floor((iter / maxIter) * 160 + 50);
-                            g = 30;
-                            b = Math.floor((iter / maxIter) * 200 + 55);
-                        } else {
-                            r = 15; g = 10; b = 25;
-                        }
-
-                        for (let dx = 0; dx < 2; dx++) {
-                            for (let dy = 0; dy < 2; dy++) {
-                                const idx = ((py + dy) * w + (px + dx)) * 4;
-                                data[idx] = r;
-                                data[idx + 1] = g;
-                                data[idx + 2] = b;
-                                data[idx + 3] = 255;
-                            }
-                        }
-                    }
-                }
-                ctx.putImageData(imgData, 0, 0);
-
-                ctx.strokeStyle = '#a855f7';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(10, 10, w - 20, h - 20);
-                ctx.fillStyle = '#a855f7';
-                ctx.font = '10px monospace';
-                ctx.fillText('HOJA 2 — ARUCO #02 DETECTADO', 20, 25);
-            }
-
-            juliaCr?.addEventListener('input', drawJulia);
-            juliaCi?.addEventListener('input', drawJulia);
-            drawJulia();
-
-            // ==================== JUEGO 3: SIERPINSKI ====================
-            const sierpCanvas = document.getElementById('canvas-sierpinski');
-            const sierpDepth = document.getElementById('sierp-depth');
-            const sierpDepthVal = document.getElementById('sierp-depth-val');
-
-            function drawSierpinski() {
-                if (!sierpCanvas) return;
-                const ctx = sierpCanvas.getContext('2d');
-                const w = sierpCanvas.width;
-                const h = sierpCanvas.height;
-                const depth = parseInt(sierpDepth.value);
-                sierpDepthVal.textContent = depth;
-
-                ctx.fillStyle = '#06080e';
-                ctx.fillRect(0, 0, w, h);
-
-                function drawTriangle(p1, p2, p3, d) {
-                    if (d === 0) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.lineTo(p3.x, p3.y);
-                        ctx.closePath();
-                        ctx.fillStyle = '#10b981';
-                        ctx.fill();
-                        ctx.strokeStyle = '#064e3b';
-                        ctx.stroke();
-                    } else {
-                        const p12 = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
-                        const p23 = { x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2 };
-                        const p31 = { x: (p3.x + p1.x) / 2, y: (p3.y + p1.y) / 2 };
-
-                        drawTriangle(p1, p12, p31, d - 1);
-                        drawTriangle(p12, p2, p23, d - 1);
-                        drawTriangle(p31, p23, p3, d - 1);
-                    }
-                }
-
-                const top = { x: w / 2, y: 30 };
-                const left = { x: 30, y: h - 30 };
-                const right = { x: w - 30, y: h - 30 };
-
-                drawTriangle(top, left, right, depth);
-
-                ctx.strokeStyle = '#10b981';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(10, 10, w - 20, h - 20);
-                ctx.fillStyle = '#10b981';
-                ctx.font = '10px monospace';
-                ctx.fillText('HOJA 3 — ARUCO #03 DETECTADO', 20, 25);
-            }
-
-            sierpDepth?.addEventListener('input', drawSierpinski);
-            drawSierpinski();
-
-            // ==================== JUEGO 4: KOCH ====================
-            const kochCanvas = document.getElementById('canvas-koch');
-            const kochDepth = document.getElementById('koch-depth');
-            const kochSpan = document.getElementById('koch-span');
-            const kochDepthVal = document.getElementById('koch-depth-val');
-            const kochSpanVal = document.getElementById('koch-span-val');
-
-            function drawKoch() {
-                if (!kochCanvas) return;
-                const ctx = kochCanvas.getContext('2d');
-                const w = kochCanvas.width;
-                const h = kochCanvas.height;
-                const depth = parseInt(kochDepth.value);
-                const span = parseInt(kochSpan.value);
-
-                kochDepthVal.textContent = depth;
-                kochSpanVal.textContent = span + 'px';
-
-                ctx.fillStyle = '#06080e';
-                ctx.fillRect(0, 0, w, h);
-
-                // Draw Abyssal cliffs background
-                const p1 = { x: (w - span) / 2, y: h / 2 + 30 };
-                const p2 = { x: (w + span) / 2, y: h / 2 + 30 };
-
-                ctx.fillStyle = '#1e293b';
-                ctx.fillRect(0, p1.y, p1.x, h - p1.y);
-                ctx.fillRect(p2.x, p2.y, w - p2.x, h - p2.y);
-
-                function drawKochSegment(a, b, d) {
-                    if (d === 0) {
-                        ctx.lineTo(b.x, b.y);
-                    } else {
-                        const dx = (b.x - a.x) / 3;
-                        const dy = (b.y - a.y) / 3;
-
-                        const pA = { x: a.x + dx, y: a.y + dy };
-                        const pC = { x: b.x - dx, y: b.y - dy };
-
-                        // Peak point calculation (60 deg rotation)
-                        const angle = Math.atan2(b.y - a.y, b.x - a.x) - Math.PI / 3;
-                        const len = Math.sqrt(dx * dx + dy * dy);
-                        const pB = {
-                            x: pA.x + len * Math.cos(angle),
-                            y: pA.y + len * Math.sin(angle)
-                        };
-
-                        drawKochSegment(a, pA, d - 1);
-                        drawKochSegment(pA, pB, d - 1);
-                        drawKochSegment(pB, pC, d - 1);
-                        drawKochSegment(pC, b, d - 1);
-                    }
-                }
-
-                ctx.beginPath();
-                ctx.moveTo(p1.x, p1.y);
-                drawKochSegment(p1, p2, depth);
-                ctx.strokeStyle = '#f59e0b';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                ctx.strokeStyle = '#f59e0b';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(10, 10, w - 20, h - 20);
-                ctx.fillStyle = '#f59e0b';
-                ctx.font = '10px monospace';
-                ctx.fillText('HOJA 4 — ARUCO #04 DETECTADO', 20, 25);
-            }
-
-            kochDepth?.addEventListener('input', drawKoch);
-            kochSpan?.addEventListener('input', drawKoch);
-            drawKoch();
-
-            // ==================== JUEGO 5: PYTHAGORAS TREE ====================
-            const treeCanvas = document.getElementById('canvas-tree');
-            const treeAngle = document.getElementById('tree-angle');
-            const treeScale = document.getElementById('tree-scale');
-            const treeAngleVal = document.getElementById('tree-angle-val');
-            const treeScaleVal = document.getElementById('tree-scale-val');
-
-            function drawPythagorasTree() {
-                if (!treeCanvas) return;
-                const ctx = treeCanvas.getContext('2d');
-                const w = treeCanvas.width;
-                const h = treeCanvas.height;
-                const angleRad = (parseInt(treeAngle.value) * Math.PI) / 180;
-                const scale = parseFloat(treeScale.value);
-
-                treeAngleVal.textContent = treeAngle.value + '°';
-                treeScaleVal.textContent = scale.toFixed(2);
-
-                ctx.fillStyle = '#06080e';
-                ctx.fillRect(0, 0, w, h);
-
-                function drawBranch(x, y, len, angle, depth) {
-                    if (depth === 0) return;
-
-                    const x2 = x + len * Math.cos(angle);
-                    const y2 = y + len * Math.sin(angle);
-
-                    ctx.beginPath();
-                    ctx.moveTo(x, y);
-                    ctx.lineTo(x2, y2);
-                    ctx.strokeStyle = depth > 3 ? '#ec4899' : '#f472b6';
-                    ctx.lineWidth = depth;
-                    ctx.stroke();
-
-                    drawBranch(x2, y2, len * scale, angle - angleRad, depth - 1);
-                    drawBranch(x2, y2, len * scale, angle + angleRad, depth - 1);
-                }
-
-                drawBranch(w / 2, h - 30, 60, -Math.PI / 2, 8);
-
-                // Target Floating Rings Simulation
-                ctx.strokeStyle = '#22d3ee';
-                ctx.lineWidth = 1.5;
-                ctx.beginPath(); ctx.arc(w * 0.3, 70, 15, 0, Math.PI * 2); ctx.stroke();
-                ctx.beginPath(); ctx.arc(w * 0.5, 50, 15, 0, Math.PI * 2); ctx.stroke();
-                ctx.beginPath(); ctx.arc(w * 0.7, 70, 15, 0, Math.PI * 2); ctx.stroke();
-
-                ctx.strokeStyle = '#ec4899';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(10, 10, w - 20, h - 20);
-                ctx.fillStyle = '#ec4899';
-                ctx.font = '10px monospace';
-                ctx.fillText('HOJA 5 — ARUCO #05 DETECTADO', 20, 25);
-            }
-
-            treeAngle?.addEventListener('input', drawPythagorasTree);
-            treeScale?.addEventListener('input', drawPythagorasTree);
-            drawPythagorasTree();
-
-            // ==================== JUEGO 6: DRAGON CURVE ====================
-            const dragonCanvas = document.getElementById('canvas-dragon');
-            const dragonDepth = document.getElementById('dragon-depth');
-            const dragonDepthVal = document.getElementById('dragon-depth-val');
-
-            function drawDragonCurve() {
-                if (!dragonCanvas) return;
-                const ctx = dragonCanvas.getContext('2d');
-                const w = dragonCanvas.width;
-                const h = dragonCanvas.height;
-                const depth = parseInt(dragonDepth.value);
-                dragonDepthVal.textContent = depth;
-
-                ctx.fillStyle = '#06080e';
-                ctx.fillRect(0, 0, w, h);
-
-                // Generate Dragon sequence
-                let sequence = [1];
-                for (let i = 1; i < depth; i++) {
-                    const copy = [...sequence].reverse().map(v => -v);
-                    sequence = [...sequence, 1, ...copy];
-                }
-
-                let x = w / 2 - 20;
-                let y = h / 2 + 20;
-                let dir = 0; // 0: Right, 1: Down, 2: Left, 3: Up
-                const step = Math.max(3, 14 - depth);
-
-                ctx.beginPath();
-                ctx.moveTo(x, y);
-
-                for (let turn of sequence) {
-                    dir = (dir + turn + 4) % 4;
-                    if (dir === 0) x += step;
-                    else if (dir === 1) y += step;
-                    else if (dir === 2) x -= step;
-                    else if (dir === 3) y -= step;
-
-                    ctx.lineTo(x, y);
-                }
-
-                ctx.strokeStyle = '#6366f1';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                ctx.strokeStyle = '#6366f1';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(10, 10, w - 20, h - 20);
-                ctx.fillStyle = '#6366f1';
-                ctx.font = '10px monospace';
-                ctx.fillText('HOJA 6 — ARUCO #06 DETECTADO', 20, 25);
-            }
-
-            dragonDepth?.addEventListener('input', drawDragonCurve);
-            drawDragonCurve();
-
-            // ==================== JUEGO 7: LORENZ ATTRACTOR ====================
-            const lorenzCanvas = document.getElementById('canvas-lorenz');
-            const lorenzRho = document.getElementById('lorenz-rho');
-            const lorenzSpeed = document.getElementById('lorenz-speed');
-            const lorenzRhoVal = document.getElementById('lorenz-rho-val');
-            const lorenzSpeedVal = document.getElementById('lorenz-speed-val');
-
-            let lorenzAngle = 0;
-
-            function renderLorenzLoop() {
-                if (!lorenzCanvas) return;
-                const ctx = lorenzCanvas.getContext('2d');
-                const w = lorenzCanvas.width;
-                const h = lorenzCanvas.height;
-
-                const rho = parseFloat(lorenzRho.value);
-                const speed = parseFloat(lorenzSpeed.value);
-
-                lorenzRhoVal.textContent = rho.toFixed(0);
-                lorenzSpeedVal.textContent = speed.toFixed(1) + 'x';
-
-                ctx.fillStyle = '#06080e';
-                ctx.fillRect(0, 0, w, h);
-
-                ctx.save();
-                ctx.translate(w / 2, h / 2 + 20);
-
-                ctx.beginPath();
-                let x = 0.1, y = 0, z = 0;
-                const dt = 0.008 * speed;
-                lorenzAngle += 0.008;
-
-                for (let i = 0; i < 700; i++) {
-                    const dx = 10 * (y - x) * dt;
-                    const dy = (x * (rho - z) - y) * dt;
-                    const dz = (x * y - (8/3) * z) * dt;
-                    x += dx; y += dy; z += dz;
-
-                    const px = x * Math.cos(lorenzAngle) - z * Math.sin(lorenzAngle);
-                    const py = y;
-
-                    const screenX = px * 4;
-                    const screenY = py * 4 - (z * 1.5 - 30);
-
-                    if (i === 0) ctx.moveTo(screenX, screenY);
-                    else ctx.lineTo(screenX, screenY);
-                }
-
-                ctx.strokeStyle = '#f43f5e';
-                ctx.lineWidth = 1.5;
-                ctx.shadowColor = '#f43f5e';
-                ctx.shadowBlur = 8;
-                ctx.stroke();
-                ctx.restore();
-
-                ctx.strokeStyle = '#f43f5e';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(10, 10, w - 20, h - 20);
-                ctx.fillStyle = '#f43f5e';
-                ctx.font = '10px monospace';
-                ctx.fillText('HOJA 7 — ARUCO #07 DETECTADO', 20, 25);
-
-                requestAnimationFrame(renderLorenzLoop);
-            }
-
-            renderLorenzLoop();
-        });
+        window.onload = drawVisuals;
     </script>
 </body>
 </html>
